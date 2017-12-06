@@ -24,8 +24,8 @@ def deleteinlist():
     print("Enter the name of the person you want to delete: ", end='')
     name = input()
     try:
+        print(name.title() + ": " + deldate['birthdays'][name.title()] + 'deleted from database\n')
         del(deldate['birthdays'][name.title()])
-        print(name.title() + ": " + deldate['birthday'][name.title()] + 'deleted from database\n')
     except KeyError:
         print("Sorry! The person is not in the list\n")
     deldate.close()
