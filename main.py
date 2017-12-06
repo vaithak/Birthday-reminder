@@ -53,7 +53,7 @@ def checkbydate():
             if Date == chkDate:
                 print(name.title() + ": " + chkDate)
                 flag = 1
-        if flag == 0
+        if flag == 0:
             print("Sorry ! No one with given birth date present in the database")
     else:
         print("ERROR!!! \nInvalid Date")
