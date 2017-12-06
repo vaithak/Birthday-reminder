@@ -3,15 +3,15 @@ import shelve
 
 
 def addinlist():
-    adddate = shelve.open("birthdaysfile",writeback=True)
+    adddate = shelve.open("birthdaysfile", writeback=True)
     print("Please enter the name of person: ", end='')
     name = input()
     print("Please give his birthday date (in format dd/mm): ", end='')
     Date = input()
     Date = datecheck.validate(Date)
     if Date != 'FALSE':
-        adddate['birthdays'][name] = Date
-        print(name + ": " + adddate['birthdays'][name])
+        adddate['birthdays'][name.title()] = Date
+        print(name.title() + ": " + adddate['birthdays'][name.title()])
         print("Added\n")
     else:
         print("Error!!! \nInvalid Date")
@@ -19,14 +19,14 @@ def addinlist():
 
 
 def deleteinlist():
-    deldate = shelve.open("birthdaysfile",writeback=True)
+    deldate = shelve.open("birthdaysfile", writeback=True)
     print("Enter the name of the person you want to delete: ", end='')
     name = input()
     try:
-        del(deldate['birthdays'][name])
-        print(name + ": " + deldate['birthday'][name] + 'deleted from database\n')
+        del(deldate['birthdays'][name.title()])
+        print(name.title() + ": " + deldate['birthday'][name.title()] + 'deleted from database\n')
     except KeyError:
-        print("Sorry! The person is not in the list")
+        print("Sorry! The person is not in the list\n")
     deldate.close()
 
 
@@ -34,8 +34,8 @@ def checkbyname():
     checkbirthday = shelve.open("birthdaysfile")
     print("Please Enter the Name of the person:", end='')
     name = input()
-    if name in checkbirthday['birthdays'].keys():
-        print(name + ": " + checkbirthday['birthdays'][name] + "\n")
+    if name.title() in checkbirthday['birthdays'].keys():
+        print(name.title() + ": " + checkbirthday['birthdays'][name.title()] + "\n")
     else:
         print("Sorry! Person is Not in the list\n")
     checkbirthday.close()
@@ -49,7 +49,7 @@ def checkbydate():
     if Date != 'FALSE':
         for name, chkDate in retbydate['birthdays'].items():
             if Date == chkDate:
-                print(name + ": " + chkDate)
+                print(name.title() + ": " + chkDate)
             else:
                 print("Sorry ! No one with given birth date present in the database")
     else:
@@ -59,9 +59,8 @@ def checkbydate():
 def printlist():
     printdays = shelve.open("birthdaysfile")
     count = 0
-    print(printdays['birthdays'])
     for name, date in printdays['birthdays'].items():
-        print(name + ": " + date)
+        print(name.title() + ": " + date)
         count = count + 1
     if count == 0:
         print("No person in the list")
