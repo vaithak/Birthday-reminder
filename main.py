@@ -1,35 +1,79 @@
-import accessData
 import datecheck
+import shelve
 
 
 def addinlist():
-    print("h")
+    adddate = shelve.open("birthdaysfile",writeback=True)
+    print("Please enter the name of person: ", end='')
+    name = input()
+    print("Please give his birthday date (in format dd/mm): ", end='')
+    Date = input()
+    Date = datecheck.validate(Date)
+    if Date != 'FALSE':
+        adddate['birthdays'][name] = Date
+        print(name + ": " + adddate['birthdays'][name])
+        print("Added\n")
+    else:
+        print("Error!!! \nInvalid Date")
+    adddate.close()
 
 
 def deleteinlist():
-    print("j")
+    deldate = shelve.open("birthdaysfile",writeback=True)
+    print("Enter the name of the person you want to delete: ", end='')
+    name = input()
+    try:
+        del(deldate['birthdays'][name])
+        print(name + ": " + deldate['birthday'][name] + 'deleted from database\n')
+    except KeyError:
+        print("Sorry! The person is not in the list")
+    deldate.close()
 
 
 def checkbyname():
-    print("Please Enter the Name of the person:", end=' ')
+    checkbirthday = shelve.open("birthdaysfile")
+    print("Please Enter the Name of the person:", end='')
     name = input()
-    if name in accessData.birthdays:
-        print(accessData.birthdays[name] + "\n")
+    if name in checkbirthday['birthdays'].keys():
+        print(name + ": " + checkbirthday['birthdays'][name] + "\n")
     else:
         print("Sorry! Person is Not in the list\n")
+    checkbirthday.close()
 
 
 def checkbydate():
-    datecheck.validate()
-
+    retbydate = shelve.open("birthdaysfile")
+    print("Please enter the birthday date to check (in format dd/mm): ", end='')
+    Date = input()
+    Date = datecheck.validate(Date)
+    if Date != 'FALSE':
+        for name, chkDate in retbydate['birthdays'].items():
+            if Date == chkDate:
+                print(name + ": " + chkDate)
+            else:
+                print("Sorry ! No one with given birth date present in the database")
+    else:
+        print("ERROR!!! \nInvalid Date")
+    retbydate.close()
 
 def printlist():
-    for name, date in accessData.birthdays.items():
+    printdays = shelve.open("birthdaysfile")
+    count = 0
+    print(printdays['birthdays'])
+    for name, date in printdays['birthdays'].items():
         print(name + ": " + date)
+        count = count + 1
+    if count == 0:
+        print("No person in the list")
     print("\n")
+    printdays.close()
 
 
 print("Welcome to Birthday Reminder\n")
+
+start = shelve.open("birthdaysfile")
+start['birthdays'] = {}
+start.close()
 
 choices = 5
 cont = 'c'
