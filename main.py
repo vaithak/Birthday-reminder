@@ -2,10 +2,13 @@ import datecheck
 import shelve
 import os
 import datetime
+import inspect
 
 
+filename = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
+filename = str(filename) + '/birthdaysfile'
 def addinlist():
-    adddate = shelve.open("birthdaysfile", writeback=True)
+    adddate = shelve.open(filename, writeback=True)
     print("Please enter the name of person: ", end='')
     name = input()
     print("Please give his birthday date (in format dd/mm): ", end='')
@@ -21,11 +24,11 @@ def addinlist():
 
 
 def deleteinlist():
-    deldate = shelve.open("birthdaysfile", writeback=True)
+    deldate = shelve.open(filename, writeback=True)
     print("Enter the name of the person you want to delete: ", end='')
     name = input()
     try:
-        print("\n" + name.title() + ": " + deldate['birthdays'][name.title()] + ' deleted from database\n')
+        print( name.title() + ": " + deldate['birthdays'][name.title()] + ' deleted from database\n')
         del(deldate['birthdays'][name.title()])
     except KeyError:
         print("Sorry! The person is not in the list\n")
@@ -33,7 +36,7 @@ def deleteinlist():
 
 
 def checkbyname():
-    checkbirthday = shelve.open("birthdaysfile")
+    checkbirthday = shelve.open(filename)
     print("Please Enter the Name of the person:", end='')
     name = input()
     if name.title() in checkbirthday['birthdays'].keys():
@@ -44,7 +47,7 @@ def checkbyname():
 
 
 def checkbydate():
-    retbydate = shelve.open("birthdaysfile")
+    retbydate = shelve.open(filename)
     print("Please enter the birthday date to check (in format dd/mm): ", end='')
     Date = input()
     Date = datecheck.validate(Date)
@@ -62,7 +65,7 @@ def checkbydate():
     print("")
 
 def printlist():
-    printdays = shelve.open("birthdaysfile")
+    printdays = shelve.open(filename)
     count = 0
     for name, date in printdays['birthdays'].items():
         print(name.title() + ": " + date)
@@ -77,7 +80,7 @@ if os.name == 'posix':
 elif os.name == 'nt':
     os.system('cls')
 
-start = shelve.open("birthdaysfile")
+start = shelve.open(filename)
 currDate = str(datetime.date.today())[-2:] + '/' + str(datetime.date.today())[-5:-3]
 currDate = datecheck.validate(currDate)
 print("Today is : ", end='')
