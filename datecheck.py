@@ -34,13 +34,13 @@ def validate(Date):
                 Date = Date[0] + suffix[Date[0]] + " " + month[Date[2:]]
             elif Date[2] == '/':
                 datetime.datetime(2008, int(Date[3]), int(Date[0:2]))
-                Date = Date[0:2] + suffix[Date[0:2]] + " " + month[Date[3]]
+                Date = str(int(Date[0:2])) + suffix[Date[0:2]] + " " + month[Date[3]]
             else:
                 Date = 'FALSE'
         elif length == 5:
             if Date[2] == '/':
                 datetime.datetime(2008, int(Date[3:]), int(Date[0:2]))
-                Date = Date[0:2] + suffix[Date[0:2]] + " " + month[Date[3:]]
+                Date = str(int(Date[0:2])) + suffix[Date[0:2]] + " " + month[Date[3:]]
             else:
                 Date = 'FALSE'
         else:

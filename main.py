@@ -1,6 +1,7 @@
 import datecheck
 import shelve
 import os
+import datetime
 
 
 def addinlist():
@@ -12,8 +13,8 @@ def addinlist():
     Date = datecheck.validate(Date)
     if Date != 'FALSE':
         adddate['birthdays'][name.title()] = Date
-        print(name.title() + ": " + adddate['birthdays'][name.title()])
-        print("Added\n")
+        print(name.title() + ": " + adddate['birthdays'][name.title()], end='')
+        print(" added\n")
     else:
         print("Error!!! \nInvalid Date")
     adddate.close()
@@ -24,7 +25,7 @@ def deleteinlist():
     print("Enter the name of the person you want to delete: ", end='')
     name = input()
     try:
-        print(name.title() + ": " + deldate['birthdays'][name.title()] + 'deleted from database\n')
+        print(name.title() + ": " + deldate['birthdays'][name.title()] + ' deleted from database\n')
         del(deldate['birthdays'][name.title()])
     except KeyError:
         print("Sorry! The person is not in the list\n")
@@ -75,11 +76,26 @@ if os.name == 'posix':
 elif os.name == 'nt':
     os.system('cls')
 
-print("Welcome to Birthday Reminder\n")
-
 start = shelve.open("birthdaysfile")
-start['birthdays'] = {}
+currDate = str(datetime.date.today())[-2:] + '/' + str(datetime.date.today())[-5:-3]
+currDate = datecheck.validate(currDate)
+print("Today is : ", end='')
+flag = 0
+print(currDate)
+for name, date in start['birthdays'].items():
+    if start['birthdays'][name] == currDate:
+        print("\t" + name)
+        flag = 1
 start.close()
+if flag == 0:
+    print("No one's", end=' ')
+print("Birthday")
+print("\nWant to continue ? (Press y for yes): ", end='')
+ch = input()
+
+if(ch != 'y'):
+    exit(0)
+print("\n\nWelcome to Birthday Reminder\n")
 
 choices = 5
 cont = 'c'
@@ -93,7 +109,7 @@ while cont == 'c':
     print("4. Check if anyone has birthday on a particular date.")
     print("5. Print the whole list")
     while choice <= 0 or choice > choices:
-        print(f"Please enter a valid input of choice between 1 and {choices}")
+        print(f"\nPlease enter a valid input of choice between 1 and {choices}")
         choice = input()
         try:
             choice = int(choice)
