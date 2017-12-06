@@ -13,7 +13,7 @@ def addinlist():
     Date = datecheck.validate(Date)
     if Date != 'FALSE':
         adddate['birthdays'][name.title()] = Date
-        print(name.title() + ": " + adddate['birthdays'][name.title()], end='')
+        print("\n" + name.title() + ": " + adddate['birthdays'][name.title()], end='')
         print(" added\n")
     else:
         print("Error!!! \nInvalid Date")
@@ -25,7 +25,7 @@ def deleteinlist():
     print("Enter the name of the person you want to delete: ", end='')
     name = input()
     try:
-        print(name.title() + ": " + deldate['birthdays'][name.title()] + ' deleted from database\n')
+        print("\n" + name.title() + ": " + deldate['birthdays'][name.title()] + ' deleted from database\n')
         del(deldate['birthdays'][name.title()])
     except KeyError:
         print("Sorry! The person is not in the list\n")
@@ -57,8 +57,9 @@ def checkbydate():
         if flag == 0:
             print("Sorry ! No one with given birth date present in the database")
     else:
-        print("ERROR!!! \nInvalid Date")
+        print("ERROR!!! Invalid Date")
     retbydate.close()
+    print("")
 
 def printlist():
     printdays = shelve.open("birthdaysfile")
@@ -82,10 +83,13 @@ currDate = datecheck.validate(currDate)
 print("Today is : ", end='')
 flag = 0
 print(currDate)
-for name, date in start['birthdays'].items():
-    if start['birthdays'][name] == currDate:
-        print("\t" + name)
-        flag = 1
+try:
+    for name, date in start['birthdays'].items():
+        if start['birthdays'][name] == currDate:
+            print("\t" + name)
+            flag = 1
+except:
+    start['birthdays']={}
 start.close()
 if flag == 0:
     print("No one's", end=' ')
