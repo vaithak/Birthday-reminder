@@ -1,5 +1,6 @@
 import datecheck
 import shelve
+import os
 
 
 def addinlist():
@@ -46,12 +47,14 @@ def checkbydate():
     print("Please enter the birthday date to check (in format dd/mm): ", end='')
     Date = input()
     Date = datecheck.validate(Date)
+    flag = 0
     if Date != 'FALSE':
         for name, chkDate in retbydate['birthdays'].items():
             if Date == chkDate:
                 print(name.title() + ": " + chkDate)
-            else:
-                print("Sorry ! No one with given birth date present in the database")
+                flag = 1
+        if flag == 0
+            print("Sorry ! No one with given birth date present in the database")
     else:
         print("ERROR!!! \nInvalid Date")
     retbydate.close()
@@ -67,6 +70,10 @@ def printlist():
     print("\n")
     printdays.close()
 
+if os.name == 'posix':
+    os.system('clear')
+elif os.name == 'nt':
+    os.system('cls')
 
 print("Welcome to Birthday Reminder\n")
 
