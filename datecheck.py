@@ -40,7 +40,7 @@ def validate(Date):
         elif length == 5:
             if Date[2] == '/':
                 datetime.datetime(2008, int(Date[3:]), int(Date[0:2]))
-                Date = str(int(Date[0:2])) + suffix[Date[0:2]] + " " + month[Date[3:]]
+                Date = str(int(Date[0:2])) + suffix[Date[0:2]] + " " + month[str(int(Date[3:]))]
             else:
                 Date = 'FALSE'
         else:
